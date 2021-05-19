@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-use App\Domain\Contracts\Node as NodeInterface;
-
-class Node implements NodeInterface
+class Node
 {
     private string $value;
-    private ?NodeInterface $leftChild;
-    private ?NodeInterface $rightChild;
+    private ?Node $leftChild;
+    private ?Node $rightChild;
 
     public function __construct(string $value)
     {
@@ -34,22 +32,22 @@ class Node implements NodeInterface
         $this->value = $value;
     }
 
-    public function getLeftChild(): ?NodeInterface
+    public function getLeftChild(): ?Node
     {
         return $this->leftChild;
     }
 
-    public function setLeftChild(?NodeInterface $leftChild): void
+    public function setLeftChild(?Node $leftChild): void
     {
         $this->leftChild = $leftChild;
     }
 
-    public function getRightChild(): ?NodeInterface
+    public function getRightChild(): ?Node
     {
         return $this->rightChild;
     }
 
-    public function setRightChild(?NodeInterface $rightChild): void
+    public function setRightChild(?Node $rightChild): void
     {
         $this->rightChild = $rightChild;
     }

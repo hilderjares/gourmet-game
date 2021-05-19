@@ -8,10 +8,12 @@ use App\Domain\Entity\Node;
 
 class NodeService
 {
-    public function create(Node $node, string $attribute, string $plate): void
+    public function create(Node $node, string $property, string $food): void
     {
-        $node->setValue($attribute);
-        $node->setLeftChild(new Node($node->getValue()));
-        $node->setRightChild(new Node($plate));
+        $oldFood = $node->getValue();
+
+        $node->setValue($property);
+        $node->setLeftChild(new Node($oldFood));
+        $node->setRightChild(new Node($food));
     }
 }

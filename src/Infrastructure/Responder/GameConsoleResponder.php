@@ -68,6 +68,13 @@ class GameConsoleResponder implements ConsoleResponder
         $this->bootGame($input, $output);
     }
 
+    protected function wins(InputInterface $input, OutputInterface $output): void
+    {
+        $this->changeAssertion();
+        $output->writeln("Eba! acertei {$this->assert}");
+        $this->bootGame($input, $output);
+    }
+
     protected function findCorrectAnswer(Node $node, InputInterface $input, OutputInterface $output): void
     {
         $answer = $this->askIfCorrectFood($node, $input, $output);
@@ -91,13 +98,6 @@ class GameConsoleResponder implements ConsoleResponder
                 $this->findCorrectAnswer($node->getLeftChild(), $input, $output);
             }
         }
-    }
-
-    protected function wins(InputInterface $input, OutputInterface $output): void
-    {
-        $this->changeAssertion();
-        $output->writeln("Eba! acertei {$this->assert}");
-        $this->bootGame($input, $output);
     }
 
     protected function bootGame(InputInterface $input, OutputInterface $output): void
