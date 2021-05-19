@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+
+<?php
+
+require __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/../bootstrap/bootstrap.php';
+
+use App\Application\Command\StartGameCommand;
+use App\Infrastructure\Responder\GameConsoleResponder;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+
+$application->add(new StartGameCommand($container->get(GameConsoleResponder::class)));
+
+$application->run();

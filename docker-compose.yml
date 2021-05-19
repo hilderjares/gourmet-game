@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  app:
+    image: webdevops/php-nginx-dev:7.4-alpine
+    container_name: app-objective
+    restart: unless-stopped
+    working_dir: /var/www/app
+    networks:
+      - objective
+    volumes:
+      - .:/var/www/app
+    environment:
+      - WEB_DOCUMENT_ROOT=/var/www/app/public
+      - PHP_DISPLAY_ERRORS=0
+      - PHP_MEMORY_LIMIT=4096M
+      - PHP_MAX_EXECUTION_TIME=300
+      - PHP_POST_MAX_SIZE=500M
+      - PHP_UPLOAD_MAX_FILESIZE=500M
+      - PHP_DEBUGGER="xdebug"
+      - XDEBUG_MODE=debug
+      - XDEBUG_DISCOVER_CLIENT_HOST=Off
+      - XDEBUG_CLIENT_HOST=172.17.0.1
+      - XDEBUG_CLIENT_PORT=9090
+      - XDEBUG_PROFILER_ENABLE=Off
+      - COMPOSER_VERSION=2
+      - PHP_DATE_TIMEZONE=America/Fortaleza
+    expose:
+      - "9090"
+    ports:
+      - "80:80"
+
+networks:
+  objective:
+    name: objective
+    driver: bridge
