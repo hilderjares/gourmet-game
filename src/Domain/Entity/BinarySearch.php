@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
+use App\Domain\Contracts\Node as NodeInterface;
+
 class BinarySearch
 {
-    private $root;
+    private NodeInterface  $root;
 
     public function add(?Node $parent, string $value, bool $answer)
     {

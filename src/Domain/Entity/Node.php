@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-class Node
+use App\Domain\Contracts\Node as NodeInterface;
+
+class Node implements NodeInterface
 {
-    private $value;
-    private $leftChild;
-    private $rightChild;
+    private string $value;
+    private ?NodeInterface $leftChild;
+    private ?NodeInterface $rightChild;
 
     public function __construct(string $value)
     {
         $this->value = $value;
+        $this->leftChild = null;
+        $this->rightChild = null;
     }
 
     public function isLeaf(): bool
@@ -30,22 +34,22 @@ class Node
         $this->value = $value;
     }
 
-    public function getLeftChild(): ?Node
+    public function getLeftChild(): ?NodeInterface
     {
         return $this->leftChild;
     }
 
-    public function setLeftChild(?Node $leftChild): void
+    public function setLeftChild(?NodeInterface $leftChild): void
     {
         $this->leftChild = $leftChild;
     }
 
-    public function getRightChild(): ?Node
+    public function getRightChild(): ?NodeInterface
     {
         return $this->rightChild;
     }
 
-    public function setRightChild(?Node $rightChild): void
+    public function setRightChild(?NodeInterface $rightChild): void
     {
         $this->rightChild = $rightChild;
     }
