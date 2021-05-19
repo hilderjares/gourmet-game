@@ -6,6 +6,7 @@ namespace App\Infrastructure\Responder;
 
 use App\Domain\Entity\BinarySearch;
 use App\Domain\Entity\Node;
+use App\Domain\Exceptions\FoodNameException;
 use App\Infrastructure\Service\NodeService;
 use RuntimeException;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -65,7 +66,7 @@ class GameConsoleResponder implements ConsoleResponder
 
         $question->setValidator(function ($answer) {
             if (null === $answer || strlen($answer) < 3) {
-                throw new RuntimeException("A resposta precisa ter mais de 3 caracteres");
+                throw new FoodNameException("A resposta precisa ter mais de 3 caracteres");
             }
 
             return $answer;
