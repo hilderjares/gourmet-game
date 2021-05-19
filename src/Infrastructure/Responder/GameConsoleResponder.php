@@ -7,6 +7,7 @@ namespace App\Infrastructure\Responder;
 use App\Domain\Entity\BinarySearch;
 use App\Domain\Entity\Node;
 use App\Infrastructure\Service\NodeService;
+use RuntimeException;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -50,18 +51,37 @@ class GameConsoleResponder implements ConsoleResponder
 
     protected function askIfCorrectFood(Node $node, InputInterface $input, OutputInterface $output): string
     {
-        $question = new ChoiceQuestion("O parato que você pensou é {$node->getValue()} ?", ['SIM', 'NÃO']);
-        $question->setErrorMessage('Resposta Inválida');
+        $question = new ChoiceQuestion("O parato que você pensou é {$node->getValue()} ?", ["SIM", "NÃO"]);
+        $question->setErrorMessage("Resposta Inválida");
 
         return $this->helper->ask($input, $output, $question);
+    }
+
+    protected function validateInput(Question $question): void
+    {
+        $question->setNormalizer(function ($value) {
+            return $value ? trim($value) : "";
+        });
+
+        $question->setValidator(function ($answer) {
+            if (null === $answer || strlen($answer) < 3) {
+                throw new RuntimeException("A resposta precisa ter mais de 3 caracteres");
+            }
+
+            return $answer;
+        });
     }
 
     protected function askForNewFood(Node $node, InputInterface $input, OutputInterface $output): void
     {
         $questionFoodName = new Question("Qual prato voce pensou ? ");
+        $this->validateInput($questionFoodName);
+
         $foodName = $this->helper->ask($input, $output, $questionFoodName);
 
         $questionAttributeName = new Question("{$foodName} é ___, mas {$node->getValue()} ? ");
+        $this->validateInput($questionAttributeName);
+
         $attributeName = $this->helper->ask($input, $output, $questionAttributeName);
 
         $this->nodeService->create($node, $attributeName, $foodName);
